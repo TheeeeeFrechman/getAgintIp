@@ -74,23 +74,6 @@ class GouBanJia(Spider):
         finally:
             return res_html, status, msg
 
-    def filterTags(self, html, main_tags_list, keep_tags_list):
-        res_html = html
-        status = True
-        msg = 'done'
-        try:
-            html_bs = BeautifulSoup(html, 'lxml')
-            _main_tags_list = self.handleTagsList(main_tags_list, html_bs)
-            for main_tag in _main_tags_list:
-                keep_tags = self.handleTagsList(keep_tags_list, main_tag)
-                if keep_tags:
-                    [tag.decompose() for tag in main_tag.find_all_next() if tag not in keep_tags]
-            res_html = html_bs.prettify()
-        except Exception as e:
-            msg = 'err:{}, e:{}'.format(traceback.format_exc(), e)
-            status = False
-        finally:
-            return res_html, status, msg
 
     def handleTagsList(self, tag_list, main_tag):
         try:
